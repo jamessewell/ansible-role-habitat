@@ -1,0 +1,12 @@
+- name: Copy the habitat init.d script into place
+  template:
+    src: habitat.initd.j2
+    dest: /etc/init.d/habitat
+    mode: '0700'
+  when: service_manager == 'initd'
+
+- name: Copy the habitat systemd service into place
+  template:
+    src: habitat.service.j2
+    dest: /etc/systemd/system/habitat.service
+  when: service_manager == 'systemd'

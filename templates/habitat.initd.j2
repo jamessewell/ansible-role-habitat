@@ -1,0 +1,39 @@
+#!/bin/bash
+# myapp daemon
+# chkconfig: 345 20 80
+# description: myapp daemon
+# processname: myapp
+
+DAEMON="/usr/bin/hab"
+DAEMONOPTS="sup run {% if 'permanent_peers' not in group_names %}{% for host in groups.permanent_peers %} --peer {{ hostvars[host].ansible_default_ipv4.address }}{% endfor %}{% else %}--permanent-peer{% endif %}"
+
+NAME=habitat
+DESC="Habitat supervisor"
+PIDFILE=/var/run/habitat.pid
+SCRIPTNAME=/etc/init.d/$NAME
+
+case "$1" in
+start)
+  echo "Starting $NAME..."
+  $DAEMON $DAEMONOPTS > /dev/null 2>&1 &
+  echo
+;;
+status)
+  $DAEMON sup status
+  echo
+;;
+stop)
+  echo "Stopping $NAME..."
+  $DAEMON sup term
+  echo
+;;
+
+restart)
+    $0 stop
+    $0 start
+;;
+
+*)
+        echo "Usage: $0 {status|start|stop|restart}"
+        exit 1
+esac

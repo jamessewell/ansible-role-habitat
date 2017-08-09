@@ -1,0 +1,49 @@
+---
+- name: Add habitat user
+  user:
+    name: hab
+
+- name: Install python components
+  easy_install:
+    name: requests
+
+- name: Install Habitat
+  habitat_install:
+
+- name: Allow traffic through firewall
+  include: firewall.yml
+  vars:
+    firewall_ports:
+      - "{{ habitat_http_port }}"
+      - "{{ habitat_gossip_port }}/tcp"
+      - "{{ habitat_gossip_port }}/udp"
+
+- name: Copy the habitat service management script into place
+  include: service.yml
+
+- name: Start the service and set to start on boot
+  service:
+    name: habitat
+    state: started
+    enabled: true
+
+- name: Wait for Habitat to come up
+  wait_for:
+    port: 9631
+
+- name: Configure habitat services
+  habitat_service: 
+    origin: "{{ item.key.split('/').0 }}"
+    name: "{{ item.key.split('/').1 }}"
+    group: "{{ item.value.group|default(omit) }}"
+    topology: "{{ item.value.topology|default(omit) }}"
+    bind: "{{ item.value.bind|default(omit) }}"
+    channel: "{{ item.value.channel|default(omit) }}"
+  with_dict: "{{ __habitat.services }}"
+
+
+- name: Allow service traffic through firewall
+  include: firewall.yml
+  vars:
+    firewall_ports: "{{ item.value.ports }}"
+  with_dict: "{{ __habitat.services }}"

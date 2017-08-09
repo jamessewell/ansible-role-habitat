@@ -1,0 +1,7 @@
+# Can be none, firewalld or iptables
+firewall_provider: firewalld
+# Must be one of systemd or initd
+service_manager: systemd
+
+habitat_gossip_port: 9631
+habitat_http_port: 9638
