@@ -1,6 +1,7 @@
 ---
 galaxy_info:
   author: "James Sewell"
+  owner: jamessewell
   company: Jirotech
   license: BSD
   min_ansible_version: 2.3
