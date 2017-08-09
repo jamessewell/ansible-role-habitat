@@ -21,5 +21,5 @@ galaxy_info:
       - quantal
       - raring
       - saucy
-galaxy_tags: [chef, habitat]
+  galaxy_tags: [chef, habitat]
 dependencies: []
