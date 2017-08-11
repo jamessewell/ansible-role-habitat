@@ -11,7 +11,7 @@ PIDFile=/var/run/habitat/habitat.pid
 User=root
 Group=root
 
-ExecStart=/usr/bin/hab sup run {% if 'permanent_peers' not in group_names %}{% for host in groups.permanent_peers %} --peer {{ hostvars[host].ansible_default_ipv4.address }}{% endfor %}{% else %}--permanent-peer{% endif %} 
+ExecStart=/bin/hab sup run {% if 'permanent_peers' not in group_names %}{% for host in groups.permanent_peers %} --peer {{ hostvars[host].ansible_default_ipv4.address }}{% endfor %}{% else %}--permanent-peer{% endif %} 
 
 ExecReload=/bin/kill -HUP $MAINPID
 
