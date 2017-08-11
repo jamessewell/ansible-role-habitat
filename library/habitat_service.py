@@ -2,7 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from ansible.module_utils.basic import AnsibleModule  
-import requests
+
+try:
+    import requests
+    HAS_REQUESTS_MODULE = True
+except ModuleNotFoundError:
+    HAS_REQUESTS_MODULE = False
 
 def check_service_loaded(module):
     try:
@@ -89,6 +94,9 @@ def main():
         ),
         required_one_of=[['name']],
     )
+
+    if not HAS_TOML_MODULE:
+        module.fail_json(msg="requests Python library is required")
 
     global HABITAT_PATH
     HABITAT_PATH = module.get_bin_path('hab', required=False)
