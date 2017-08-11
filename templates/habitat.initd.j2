@@ -4,7 +4,7 @@
 # description: myapp daemon
 # processname: myapp
 
-DAEMON="/usr/bin/hab"
+DAEMON="/bin/hab"
 DAEMONOPTS="sup run {% if 'permanent_peers' not in group_names %}{% for host in groups.permanent_peers %} --peer {{ hostvars[host].ansible_default_ipv4.address }}{% endfor %}{% else %}--permanent-peer{% endif %}"
 
 NAME=habitat
