@@ -16,9 +16,8 @@ easy_install (to get requests), curl required on nodes
 Role Variables
 --------------
 
-firewall_provider: firewalld|iptables|none
 service_manager: systemd|init
-habitat_gossip_port: 9631 (will be opened tcp/udp if firewall_provider is used)
+habitat_gossip_port: 9631 
 habitat_http_port: 9638
 
 Dependencies
@@ -38,7 +37,6 @@ Including an example of how to use your role (for instance, with variables passe
                  bind: prom:prometheus.monitoring
                  topology: leader
                  channel: unstable
-                 ports: 9090
 
 License
 -------

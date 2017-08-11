@@ -6,14 +6,6 @@
 - name: Install Habitat
   habitat_install:
 
-- name: Allow traffic through firewall
-  include: firewall.yml
-  vars:
-    firewall_ports:
-      - "{{ habitat_http_port }}"
-      - "{{ habitat_gossip_port }}/tcp"
-      - "{{ habitat_gossip_port }}/udp"
-
 - name: Copy the habitat service management script into place
   include: service.yml
 
@@ -35,11 +27,4 @@
     topology: "{{ item.value.topology|default(omit) }}"
     bind: "{{ item.value.bind|default(omit) }}"
     channel: "{{ item.value.channel|default(omit) }}"
-  with_dict: "{{ __habitat.services }}"
-
-
-- name: Allow service traffic through firewall
-  include: firewall.yml
-  vars:
-    firewall_ports: "{{ item.value.ports }}"
   with_dict: "{{ __habitat.services }}"
