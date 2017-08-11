@@ -95,7 +95,7 @@ def main():
         required_one_of=[['name']],
     )
 
-    if not HAS_TOML_MODULE:
+    if not HAS_REQUESTS_MODULE:
         module.fail_json(msg="requests Python library is required")
 
     global HABITAT_PATH
