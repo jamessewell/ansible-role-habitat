@@ -12,8 +12,8 @@
 
 - name: Allow ports through iptables
   iptables_raw:
-    name: 'allow_tcp_{{ item_firewall_port }}'
-    rules: '-A INPUT -p tcp -m tcp --dport "{{ item_firewall_port }}" -j ACCEPT'
+    name: 'allow_{{ item_firewall_port.split("/").1|default("tcp") }}_{{ item_firewall_port.split("/").1|default("item_firewall_port") }}'
+    rules: '-A INPUT -p {{ item_firewall_port.split("/").1|default("tcp") }} -m {{ item_firewall_port.split("/").1|default("tcp") }} --dport "{{ item_firewall_port.split("/").1|default("item_firewall_port") }}" -j ACCEPT'
   when: firewall_provider is defined and firewall_provider == "iptables"
   with_items: "{{ firewall_ports }}"
   loop_control:
